@@ -4,18 +4,18 @@
 
 ## Flow Shop Scheduling Problem (FSSP)
 
-Es un problema de líneas de producción. Los trabajos \(J_i\) deben ser procesados en 
-las máquinas \(M_i\) con tiempos fijos \(p_{ji}\), y son independientes para cada 
+Es un problema de líneas de producción. Los *J* trabajos deben ser procesados en 
+las *M* máquinas con tiempos fijos *P*, y son independientes para cada 
 trabajo. Además, asumimos que los tiempos de trabajo ya han sido optimizados.
 
-![Instancia a analizar](./.github/fssp_impossible/1733238439.png)
+![Instancia a analizar](./.github/1733238439.png)
 *Figura 1. Instancia a analizar*
 
 Rápidamente, sin analizar el tiempo que puede demorar encontrar la solución óptima, 
 podemos pensar en diseñar un algoritmo de fuerza bruta. Es sencillo para nosotros 
 pero imposible para la máquina.
 
-![Algoritmo de fuerza bruta](./.github/fssp_impossible/1733239898.png)
+![Algoritmo de fuerza bruta](./.github/1733239898.png)
 *Figura 2. Algoritmo de fuerza bruta*
 
 ### ¿Qué es una Heurística?
@@ -35,21 +35,23 @@ en escoger una muestra del total y observar cuántos cumplen con el propósito.
 Selecciona una muestra aleatoria extraída del espacio de soluciones para encontrar 
 un resultado numérico (media esperada, mejor, peor).
 
-![Búsqueda aleatoria](./.github/fssp_impossible/1733241212.png)
+![Búsqueda aleatoria](./.github/1733241212.png)
 *Figura 3. Búsqueda aleatoria*
 
 Este enfoque es muy general y puede ayudar a resolver otros tipos de problemas. Sin 
 embargo, no es el mejor para resolver el problema propuesto:
 
 - La muestra puede ser demasiado pequeña y no representativa.
-- La media de la muestra \( \approx \) la media de la población.
+- La media de la muestra es aproximadamente la media de la población.
 - El mejor de la muestra no es el mejor de la población.
 
 ---
 
-# Métodos heurísticos básicos
+Los temas a tratar en este repositorio son los siguientes
 
-## Heurísticas constructivas
+# Métodos heurísticos básicos :eyes:
+
+## Heurísticas Constructivas
 
 Construyen una solución desde cero, añadiendo uno a uno los componentes a la solución 
 parcial, hasta que la solución esté completa. La pregunta importante para diseñar 
@@ -57,30 +59,23 @@ esta heurística es:
 
 > **¿Cuál elemento debería añadir y cómo?**
 
-### Heurística constructiva de Nawaz, Enscore y Ham (NEH)
+Veremos cómo utilizando la aceleración de Taillard mejora le eficiencia del 
+funcionamiento de la heurística.
 
-Propuesta en 1983 para resolver el FSSP y se divide en dos partes importantes
+## Heurísticas de Búsqueda Local
 
-#### Primera etapa: ¿Cuál es el elemento que debo insertar?
+Comienzan desde una solución inicial (puede ser aleatoria), intentan reemplazar 
+la solución actual por una mejor solución vecina, repiten este paso hasta que 
+no hayan mejores soluciones vecinas. La pregunta que que ayuda a diseñar 
+correctamente la Heurística es: 
 
-Determina un orden de inserción. En este caso, se ordena del más grande al más 
-pequeño según su tiempo total de procesamiento.  
-\[
-\pi_0 = (J_4, J_5, J_1, J_2, J_3, J_6)
-\]
+> **¿Qué cambio podría mejorar esta solución?**
 
-#### Segunda etapa: ¿Cómo o dónde lo debo de insertar?
 
-Insertar estos trabajos, uno a uno, en la mejor posición, comenzando con:  
-\[
-\pi = (J_4)
-\]
+# Metaheurísticas :skull:
 
-![Heurística NEH](./.github/fssp_impossible/1733245449.png)
-*Figura 4. Heurística NEH*
+## Metaheurísticas iterativas
 
-- Si ocurren empates al realizar la segunda etapa, se puede utilizar una técnica para solucionarlo. Por el momento, tomaremos el orden del primer resultado.
-- La calidad de la solución se mide con el desvío relativo:
-\[
-DR = \frac{C_{\text{max}}(\pi) - C_{\text{max}}(\pi^*)}{C_{\text{max}}(\pi^*)}
-\]
+### Búsqueda local iterativa (ILS)
+
+### Algoritmo iterativo goloso (IG)
