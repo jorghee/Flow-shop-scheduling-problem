@@ -8,15 +8,19 @@ Es un problema de líneas de producción. Los *J* trabajos deben ser procesados 
 las *M* máquinas con tiempos fijos *P*, y son independientes para cada 
 trabajo. Además, asumimos que los tiempos de trabajo ya han sido optimizados.
 
-![Instancia a analizar](./.github/1733238439.png)
-*Figura 1. Instancia a analizar*
+<div style="text-align: center;">
+  <img src="./.github/1733238439.png" alt="Instancia a analizar" width="400px">
+  <p><em>Figura 1: Instancia a analizar</em></p>
+</div>
 
 Rápidamente, sin analizar el tiempo que puede demorar encontrar la solución óptima, 
 podemos pensar en diseñar un algoritmo de fuerza bruta. Es sencillo para nosotros 
 pero imposible para la máquina.
 
-![Algoritmo de fuerza bruta](./.github/1733239898.png)
-*Figura 2. Algoritmo de fuerza bruta*
+<div style="text-align: center;">
+  <img src="./.github/1733239898.png" alt="Algoritmo de fuerza bruta" width="400px">
+  <p><em>Figura 2: Algoritmo de fuerza bruta</em></p>
+</div>
 
 ### ¿Qué es una Heurística?
 
@@ -35,8 +39,10 @@ en escoger una muestra del total y observar cuántos cumplen con el propósito.
 Selecciona una muestra aleatoria extraída del espacio de soluciones para encontrar 
 un resultado numérico (media esperada, mejor, peor).
 
-![Búsqueda aleatoria](./.github/1733241212.png)
-*Figura 3. Búsqueda aleatoria*
+<div style="text-align: center;">
+  <img src="./.github/1733241212.png" alt="Búsqueda aleatoria" width="400px">
+  <p><em>Figura 3: Búsqueda aleatoria</em></p>
+</div>
 
 Este enfoque es muy general y puede ayudar a resolver otros tipos de problemas. Sin 
 embargo, no es el mejor para resolver el problema propuesto:
