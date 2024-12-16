@@ -1,4 +1,8 @@
 *.aux
 *.log
 *.out
+*.bbl
+*.bcf
+*.blg
+*.run.xml
 *.o
