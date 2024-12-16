@@ -149,7 +149,7 @@ suma de procesamientos de los **<samp>j</samp>** trabajos en las
 permutación.
 
 <div style="text-align: center;">
-  <img src="./.github/1734281009.png" alt="Una posible permutación" width="300px">
+  <img src="./.github/1734364514.png" alt="Una posible permutación" width="300px">
   <p><em>Figura 4: Una posible permutación [1]</em></p>
 </div>
 
