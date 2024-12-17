@@ -8,7 +8,6 @@
  */
 
 #include <bits/stdc++.h>
-#include <random>
 using namespace std;
 
 int nT, mM, P[900][70];
@@ -54,6 +53,41 @@ void PrioridadNEH(vector<int> &Orden) {
       });
 }
 
+tuple<int, vector<int>::iterator> MejorPosicisionInsercion(vector<int> &S, int nj) {
+  fill(&EF[0][0], &EF[0][mM], 0);
+  for (int k = 1; k <= S.size(); k++) {
+    int j = S[k - 1];
+    EF[k][0] = EF[k - 1][0] + P[j][0];
+    for (int i = 1; i < mM; i++)
+      EF[k][i] = max(EF[k - 1][i], EF[k][i - 1]) + P[j][i];
+  }
+
+  for (int k = 0; k <= S.size(); k++) {
+    EF[k][0] += P[nj][0];
+    for (int i = 1; i < mM; i++)
+      EF[k][i] = max(EF[k][i], EF[k][i - 1]) + P[nj][i];
+  }
+
+  fill(&LS[S.size()][0], &LS[S.size()][mM], 0);
+  for (int k = S.size() - 1; k >= 0; k--) {
+    int j = S[k];
+    LS[k][mM - 1] = LS[k + 1][mM - 1] + P[j][mM - 1];
+    for (int i = mM - 2; i >= 0; i--)
+      LS[k][i] = max(LS[k][i + 1], LS[k + 1][i]) + P[j][i];
+  }
+
+  int bmk = numeric_limits<int>::max(), mk, pos;
+  for (int k = 0; k <= S.size(); k++) {
+    mk = 0;
+    for (int i = 0; i < mM; i++)
+      if (mk < EF[k][i] + LS[k][i])
+        mk = EF[k][i] + LS[k][i];
+    if (mk < bmk) { bmk = mk; pos = k; }
+  }
+
+  return {bmk, S.begin() + pos};
+}
+
 int main(void) {
   cout << "\nMatriz P[j][i]\n";
 
@@ -68,7 +102,8 @@ int main(void) {
   cout << "\nCalculate makespan\n";
 
   cout << nT << "x" << mM << "\n";
-  vector<int> S = {4, 3, 5, 1, 0, 2};
+  // vector<int> S = {4, 3, 5, 1, 0, 2};
+  vector<int> S = {4, 3, 1, 0};
   cout << makespan(S) << "\n";
 
 
@@ -78,4 +113,29 @@ int main(void) {
   PrioridadNEH(ss);
   for (auto &j : ss) cout << j << ",";
   cout << "\n";
+
+
+  cout << "\nExample 1 of Aceleración de Taillard\n";
+
+  int mk; vector<int>::iterator pj;
+  tie(mk, pj) = MejorPosicisionInsercion(S, 2);
+  S.insert(pj, 2);
+  cout << mk << ": ";
+  for (auto &j : S) cout << j << ",";
+  cout << "\n";
+
+
+  cout << "\nExample 2 of Aceleración de Taillard\n";
+  
+  S = {3};
+  cout << makespan(S) << "\n";
+  
+  for (auto &j : {4, 0, 1, 2, 5}) {
+    int mk; vector<int>::iterator pj;
+    tie(mk, pj) = MejorPosicisionInsercion(S, j);
+    S.insert(pj, j);
+    cout << mk << ": ";
+    for (auto &j : S) cout << j << ",";
+    cout << "\n";
+  }
 }
