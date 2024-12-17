@@ -88,6 +88,38 @@ tuple<int, vector<int>::iterator> MejorPosicisionInsercion(vector<int> &S, int n
   return {bmk, S.begin() + pos};
 }
 
+int NEH(vector<int> &S) {
+  int mk;
+  vector<int> orden;
+  PrioridadNEH(orden);
+  S = {orden[0]};
+  for (int k = 1; k < nT; k++) {
+    vector<int>::iterator pos;
+    tie(mk, pos) = MejorPosicisionInsercion(S, orden[k]);
+    S.insert(pos, orden[k]);
+  }
+  return mk;
+}
+
+int BusquedaLocal(vector<int> &S, int pmk = 0) {
+  vector<int> orden(S);
+  shuffle(orden.begin(), orden.end(), Rand);
+  int k = 0;
+  int c = 0;
+  int bmk = pmk;
+  if (bmk == 0) bmk = makespan(S);
+  do {
+    int mk; vector<int>::iterator pos;
+    S.erase(find(S.begin(), S.end(), orden[k]));
+    tie(mk, pos) = MejorPosicisionInsercion(S, orden[k]);
+    S.insert(pos, orden[k]);
+    if (mk < bmk) { bmk = mk; c = 0; }
+    k++; if (k >= nT) k = 0;
+    c++;
+  } while (c < nT);
+  return bmk;
+}
+
 int main(void) {
   cout << "\nMatriz P[j][i]\n";
 
@@ -138,4 +170,34 @@ int main(void) {
     for (auto &j : S) cout << j << ",";
     cout << "\n";
   }
+
+  // Instancias
+  vector<string> Instancias = {"br66", "ta021", "ta022", "ta023", "ta024",
+    "ta025", "ta026", "ta027", "ta028", "ta029", "ta030"};
+
+
+  cout << "\nSoluciones producidas por NEH\n";
+
+  ss.clear();
+  for (auto &instancia : Instancias) {
+    cargar("flowshop/" + instancia);
+    cout << instancia << "\t" << NEH(ss) << ": ";
+    for (auto &j : ss) cout << j << ",";
+    cout << "\n"; 
+  }
+
+
+  cout << "\nSoluciones luego de una Búsqueda Local\n";
+
+  ss.clear();
+  for (auto &instancia : Instancias) {
+    cargar("flowshop/" + instancia);
+    int mk = NEH(ss); mk = BusquedaLocal(ss, mk);
+    if (mk != makespan(ss)) cout << "ERROR!!!\n";
+    cout << instancia << "\t" << mk << ": ";
+    for (auto &j : ss) cout << j << ",";
+    cout << "\n";
+  }
+
+  return 0;
 }
