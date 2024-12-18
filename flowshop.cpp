@@ -8,6 +8,7 @@
  */
 
 #include <bits/stdc++.h>
+#include <fstream>
 using namespace std;
 
 int nT, mM, P[900][70];
@@ -293,6 +294,29 @@ int IGnoLS(vector<int> &BS) {
   return bmk;
 }
 
+typedef int (*tMetodo)(vector<int> &);
+
+void Experimento(string sMetodo, tMetodo pMetodo) {
+  vector<int> SS;
+  ofstream fout(sMetodo + ".txt");
+  fout << sMetodo << endl;
+
+  vector<string> Instancias = {
+    "ta051", "ta052", "ta0513", "ta054", "ta055",
+    "ta056", "ta057", "ta058", "ta059", "ta060"
+  };
+
+  for (auto &instancia : Instancias) {
+    cargar("flowshop/" + instancia);
+    fout << instancia;
+
+    for (int i = 10; i; i--)
+      fout << ", " << (*pMetodo)(SS);
+    fout << endl;
+  }
+
+  fout.close();
+}
 
 int main(void) {
   vector<int> SS;
