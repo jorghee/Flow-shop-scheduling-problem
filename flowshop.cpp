@@ -302,7 +302,7 @@ void Experimento(string sMetodo, tMetodo pMetodo) {
   fout << sMetodo << endl;
 
   vector<string> Instancias = {
-    "ta051", "ta052", "ta0513", "ta054", "ta055",
+    "ta051", "ta052", "ta053", "ta054", "ta055",
     "ta056", "ta057", "ta058", "ta059", "ta060"
   };
 
