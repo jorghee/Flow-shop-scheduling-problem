@@ -8,7 +8,6 @@
  */
 
 #include <bits/stdc++.h>
-#include <ctime>
 using namespace std;
 
 int nT, mM, P[900][70];
@@ -171,6 +170,43 @@ int ILS_RW(vector<int> &BS) {
   return bmk;
 }
 
+int ILS_SA(vector<int> &BS) {
+  vector<int> S, NS;
+  int mk, bmk, nmk;
+  int sum_p = 0;
+
+  for (int j = 0; j < nT; j++)
+    for (int i = 0; i < mM; i++)
+      sum_p += P[j][i];
+  double T = double(sum_p) / (nT * mM * 25);
+
+  elapsed(true);
+  bmk = mk = NEH(S);
+  bmk = mk = BusquedaLocal(S);
+  BS = S;
+
+  while (elapsed() < 15 * nT * mM) {
+    NS = S;
+    auto b1 = NS.begin() + Rand() % NS.size();
+    auto b2 = NS.begin() + Rand() % NS.size();
+    swap(*b1, *b2);
+    b1 = NS.begin() + Rand() % NS.size();
+    b2 = NS.begin() + Rand() % NS.size();
+    swap(*b1, *b2);
+
+    nmk = BusquedaLocal(NS);
+    if (nmk < mk) {
+      S = NS; mk = nmk;
+      if (mk < bmk) {BS = S; bmk = mk;}
+    } else if (double(Rand()) / Rand.max() <= 
+          exp(-(double(nmk - mk) / T))) {
+      S = NS; mk = nmk;
+    }
+  }
+
+  return bmk;
+}
+
 int main(void) {
   vector<int> SS;
   cargar("flowshop/ta023");
@@ -181,6 +217,10 @@ int main(void) {
   cout << endl;
 
   cout << "ilsrw " << ILS_RW(SS) << endl;
+  for (auto &j : SS) cout << j << ",";
+  cout << endl;
+
+  cout << "ilssa " << ILS_SA(SS) << endl;
   for (auto &j : SS) cout << j << ",";
   cout << endl;
 
