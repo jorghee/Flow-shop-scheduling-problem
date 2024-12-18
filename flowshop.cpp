@@ -207,9 +207,96 @@ int ILS_SA(vector<int> &BS) {
   return bmk;
 }
 
+int IG(vector<int> &BS) {
+  vector<int> S, NS, R;
+  R.resize(4);
+  int mk, bmk, nmk;
+  int sum_p = 0;
+
+  for (int j = 0; j < nT; j++)
+    for (int i = 0; i < mM; i++)
+      sum_p += P[j][i];
+  double T = double(sum_p) / (nT * mM * 25);
+
+  elapsed(true);
+  bmk = mk = NEH(S);
+  bmk = mk = BusquedaLocal(S);
+  BS = S;
+
+  while (elapsed() < 15 * nT * mM) {
+    NS = S;
+    // Cómo funciona J, es el objeto en si (?)
+    for (auto &j : R) {
+      auto b1 = NS.begin() + Rand() % NS.size();
+      j = *b1;
+      NS.erase(b1);
+    }
+    for (auto &j : R) {
+      vector<int>::iterator pos;
+      tie(nmk, pos) = MejorPosicisionInsercion(NS, j);
+      NS.insert(pos, j);
+    }
+
+    nmk = BusquedaLocal(NS, nmk);
+    if (nmk < mk) {
+      S = NS; mk = nmk;
+      if (mk < bmk) {BS = S; bmk = mk;}
+    } else if (double(Rand()) / Rand.max() <= 
+          exp(-(double(nmk - mk) / T))) {
+      S = NS; mk = nmk;
+    }
+  }
+
+  return bmk;
+}
+
+int IGnoLS(vector<int> &BS) {
+  vector<int> S, NS, R;
+  R.resize(4);
+  int mk, bmk, nmk;
+  int sum_p = 0;
+
+  for (int j = 0; j < nT; j++)
+    for (int i = 0; i < mM; i++)
+      sum_p += P[j][i];
+  double T = double(sum_p) / (nT * mM * 25);
+
+  elapsed(true);
+  bmk = mk = NEH(S);
+  // bmk = mk = BusquedaLocal(S);
+  BS = S;
+
+  while (elapsed() < 15 * nT * mM) {
+    NS = S;
+    // Cómo funciona J, es el objeto en si (?)
+    for (auto &j : R) {
+      auto b1 = NS.begin() + Rand() % NS.size();
+      j = *b1;
+      NS.erase(b1);
+    }
+    for (auto &j : R) {
+      vector<int>::iterator pos;
+      tie(nmk, pos) = MejorPosicisionInsercion(NS, j);
+      NS.insert(pos, j);
+    }
+
+    // nmk = BusquedaLocal(NS, nmk);
+    if (nmk < mk) {
+      S = NS; mk = nmk;
+      if (mk < bmk) {BS = S; bmk = mk;}
+    } else if (double(Rand()) / Rand.max() <= 
+          exp(-(double(nmk - mk) / T))) {
+      S = NS; mk = nmk;
+    }
+  }
+
+  return bmk;
+}
+
+
 int main(void) {
   vector<int> SS;
-  cargar("flowshop/ta023");
+  cargar("flowshop/br66");
   cout << nT << "x" << mM << endl;
 
   cout << "ilsb " << ILS_B(SS) << endl;
@@ -221,6 +308,14 @@ int main(void) {
   cout << endl;
 
   cout << "ilssa " << ILS_SA(SS) << endl;
+  for (auto &j : SS) cout << j << ",";
+  cout << endl;
+
+  cout << "ig " << IG(SS) << endl;
+  for (auto &j : SS) cout << j << ",";
+  cout << endl;
+
+  cout << "ign " << IGnoLS(SS) << endl;
   for (auto &j : SS) cout << j << ",";
   cout << endl;
 
