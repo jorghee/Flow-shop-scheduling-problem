@@ -8,6 +8,7 @@
  */
 
 #include <bits/stdc++.h>
+#include <ctime>
 using namespace std;
 
 int nT, mM, P[900][70];
@@ -120,84 +121,68 @@ int BusquedaLocal(vector<int> &S, int pmk = 0) {
   return bmk;
 }
 
+inline int elapsed(bool reset = false) {
+  static clock_t start = clock();
+  if (reset) start = clock();
+  return (1000.00 * double(clock() - start) / double(CLOCKS_PER_SEC));
+}
+
+int ILS_B(vector<int> &BS) {
+  vector<int> S;
+  int mk, bmk;
+  elapsed(true);
+  NEH(S);
+  bmk = mk = BusquedaLocal(S);
+  BS = S;
+
+  while (elapsed() < 15 * nT * mM) {
+    auto b1 = S.begin() + Rand() % S.size();
+    auto b2 = S.begin() + Rand() % S.size();
+    swap(*b1, *b2);
+    b1 = S.begin() + Rand() % S.size();
+    b2 = S.begin() + Rand() % S.size();
+
+    mk = BusquedaLocal(S);
+    if (bmk > mk) {BS = S; bmk = mk;}
+    else {S = BS; mk = bmk;}
+  }
+  return bmk;
+}
+
+int ILS_RW(vector<int> &BS) {
+  vector<int> S;
+  int mk, bmk;
+  elapsed(true);
+  NEH(S);
+  bmk = mk = BusquedaLocal(S);
+  BS = S;
+
+  while (elapsed() < 15 * nT * mM) {
+    auto b1 = S.begin() + Rand() % S.size();
+    auto b2 = S.begin() + Rand() % S.size();
+    swap(*b1, *b2);
+    b1 = S.begin() + Rand() % S.size();
+    b2 = S.begin() + Rand() % S.size();
+
+    mk = BusquedaLocal(S);
+    if (bmk > mk) {BS = S; bmk = mk;}
+    // else {S = BS; mk = bmk;}
+  }
+  return bmk;
+}
+
 int main(void) {
-  cout << "\nMatriz P[j][i]\n";
+  vector<int> SS;
+  cargar("flowshop/ta023");
+  cout << nT << "x" << mM << endl;
 
-  cargar("flowshop/br66");
-  for (int j = 0; j < nT; j++) {
-    for (int i = 0; i < mM; i++)
-      cout << P[j][i] << " ";
-    cout << "\n";
-  }
+  cout << "ilsb " << ILS_B(SS) << endl;
+  for (auto &j : SS) cout << j << ",";
+  cout << endl;
 
-
-  cout << "\nCalculate makespan\n";
-
-  cout << nT << "x" << mM << "\n";
-  // vector<int> S = {4, 3, 5, 1, 0, 2};
-  vector<int> S = {4, 3, 1, 0};
-  cout << makespan(S) << "\n";
-
-
-  cout << "\nExample of PrioridadNEH\n";
-
-  vector<int> ss;
-  PrioridadNEH(ss);
-  for (auto &j : ss) cout << j << ",";
-  cout << "\n";
-
-
-  cout << "\nExample 1 of Aceleración de Taillard\n";
-
-  int mk; vector<int>::iterator pj;
-  tie(mk, pj) = MejorPosicisionInsercion(S, 2);
-  S.insert(pj, 2);
-  cout << mk << ": ";
-  for (auto &j : S) cout << j << ",";
-  cout << "\n";
-
-
-  cout << "\nExample 2 of Aceleración de Taillard\n";
-  
-  S = {3};
-  cout << makespan(S) << "\n";
-  
-  for (auto &j : {4, 0, 1, 2, 5}) {
-    int mk; vector<int>::iterator pj;
-    tie(mk, pj) = MejorPosicisionInsercion(S, j);
-    S.insert(pj, j);
-    cout << mk << ": ";
-    for (auto &j : S) cout << j << ",";
-    cout << "\n";
-  }
-
-  // Instancias
-  vector<string> Instancias = {"br66", "ta021", "ta022", "ta023", "ta024",
-    "ta025", "ta026", "ta027", "ta028", "ta029", "ta030"};
-
-
-  cout << "\nSoluciones producidas por NEH\n";
-
-  ss.clear();
-  for (auto &instancia : Instancias) {
-    cargar("flowshop/" + instancia);
-    cout << instancia << "\t" << NEH(ss) << ": ";
-    for (auto &j : ss) cout << j << ",";
-    cout << "\n"; 
-  }
-
-
-  cout << "\nSoluciones luego de una Búsqueda Local\n";
-
-  ss.clear();
-  for (auto &instancia : Instancias) {
-    cargar("flowshop/" + instancia);
-    int mk = NEH(ss); mk = BusquedaLocal(ss, mk);
-    if (mk != makespan(ss)) cout << "ERROR!!!\n";
-    cout << instancia << "\t" << mk << ": ";
-    for (auto &j : ss) cout << j << ",";
-    cout << "\n";
-  }
+  cout << "ilsrw " << ILS_RW(SS) << endl;
+  for (auto &j : SS) cout << j << ",";
+  cout << endl;
 
   return 0;
 }
