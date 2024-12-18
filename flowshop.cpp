@@ -319,29 +319,11 @@ void Experimento(string sMetodo, tMetodo pMetodo) {
 }
 
 int main(void) {
-  vector<int> SS;
-  cargar("flowshop/br66");
-  cout << nT << "x" << mM << endl;
-
-  cout << "ilsb " << ILS_B(SS) << endl;
-  for (auto &j : SS) cout << j << ",";
-  cout << endl;
-
-  cout << "ilsrw " << ILS_RW(SS) << endl;
-  for (auto &j : SS) cout << j << ",";
-  cout << endl;
-
-  cout << "ilssa " << ILS_SA(SS) << endl;
-  for (auto &j : SS) cout << j << ",";
-  cout << endl;
-
-  cout << "ig " << IG(SS) << endl;
-  for (auto &j : SS) cout << j << ",";
-  cout << endl;
-
-  cout << "ign " << IGnoLS(SS) << endl;
-  for (auto &j : SS) cout << j << ",";
-  cout << endl;
+  Experimento("ilsb", ILS_B);
+  Experimento("ilsrw", ILS_RW);
+  Experimento("ilssa", ILS_SA);
+  Experimento("ig", IG);
+  Experimento("igsin", IGnoLS);
 
   return 0;
 }
