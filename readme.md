@@ -34,7 +34,7 @@
         <td style="padding: 10px; font-weight: bold;">NRO. SEMESTRE:</td>
         <td style="padding: 10px;">IV</td>
       </tr>
-      <tr>
+
         <td colspan="6" style="padding: 10px; font-weight: bold;">DOCENTE:</td>
       </tr>
       <tr>
@@ -153,6 +153,49 @@ del primer resultado.
 - La calidad de la solución se mide con el desvío relativo:
 
 ![](https://latex.codecogs.com/png.latex?DR%20%3D%20%5Cfrac%7BC_%7B%5Cmax%7D%28%5Cpi%29%20-%20C_%7B%5Cmax%7D%28%5Cpi%5E*%29%7D%7BC_%7B%5Cmax%7D%28%5Cpi%5E*%29%7D)
+
+--- 
+
+Taillard realiza dos análisis fundamentales para aplicar esta aceleración. 
+Supongamos que ya hemos programado 4 trabajos en 4 máquinas. Entonces, **¿dónde 
+podemos agregar un quinto trabajo?**
+
+##### Los tiempos de finalización más tempranos
+
+Imaginemos que empujamos todos los trabajos hacia el inicio, lo más posible. Es 
+decir, el procesamiento de un trabajo pasa a la siguiente máquina justo cuando 
+culmina su procesamiento en la anterior.
+
+<div style="color: blue; font-weight: bold;">
+Conclusión: Si insertamos el quinto trabajo en cualquier lugar, los tiempos de 
+finalización en cada máquina de los trabajos procesados antes del nuevo trabajo 
+insertado <strong>no cambian</strong>.
+</div>
+
+<div style="text-align: center;">
+  <img src="./.github/1733346799.png" alt="Tiempos de finalización más tempranos" width="400px">
+  <p><em>Figura 1: Tiempos de finalización más tempranos</em></p>
+</div>
+
+##### Los tiempos de iniciación más tardíos
+
+Imaginemos que empujamos todos los trabajos hacia el final, lo más posible. 
+Recordemos que los tiempos de procesamiento de cada trabajo en cada máquina varían, 
+por lo que pueden quedar espacios sin uso. Estos espacios pueden ser ocupados por 
+los trabajos procesados anteriormente en esa máquina.
+
+<div style="color: blue; font-weight: bold;">
+Conclusión: Si insertamos el quinto trabajo en cualquier lugar, los tiempos de 
+iniciación tardía en cada máquina de los trabajos procesados después del nuevo 
+trabajo insertado <strong>no cambian</strong>.
+</div>
+
+<div style="text-align: center;">
+  <img src="./.github/1733346809.png" alt="Tiempos de iniciación más tardíos" width="400px">
+  <p><em>Figura 2: Tiempos de iniciación más tardíos</em></p>
+</div>
+
+---
 
 ## 2.4. Heurística de Búsqueda local
 
@@ -450,16 +493,311 @@ Example of PrioridadNEH
 
 #### Aceleración de `Taillard` (1990)
 
+Recordando el análisis descrito en la sección 2.3. los pasos que sigue Taillard para
+calcular la mejor posicion de inserción son los siguiente:
+
+- 1. Calcular los **tiempos de finalización más tempranos**
+
+<div style="text-align: center;">
+  <img src="https://latex.codecogs.com/png.latex?\dpi{150}\pi_0%20=%20(J_4,%20J_5,%20J_1,%20J_2,%20\textcolor{red}{J_3},%20J_6)%20\quad%20\pi%20=%20(J_5,%20J_4,%20J_2,%20J_1)%20\quad%20\text{Next%20work:%20}J_3" alt="Tiempos iniciales">
+</div>
+
+<div style="text-align: center;">
+  <img src="https://latex.codecogs.com/png.latex?\dpi{150}\text{Calcule}%20e_{k,%20i}%20=%20\max(e_{k,%20i-1},%20e_{k-1,%20i})%20+%20p_{\pi(k),%20i}%20\quad%20\text{para}%20i%20\in%20[m],%20k%20\in%20[|\pi|]%20\quad%20\text{con}%20e_{0,%20i}%20=%20e_{k,%200}%20=%200" alt="Ecuación tiempos iniciales">
+</div>
+
+<div style="text-align: center;">
+  <img src="./.github/1733417697.png" alt="Matriz tiempos iniciales" width="400px">
+  <p><em>Figura 3: Matriz de los tiempos de finalización más tempranos</em></p>
+</div>
+
+---
+
+- 2. Calcular los tiempos de finalización con el nuevo trabajo insertado en cada posición
+
+<div style="text-align: center;">
+  <img src="https://latex.codecogs.com/png.latex?\dpi{150}\text{Calcule}%20e^{'}_{k,%20i}%20=%20\max(e^{'}_{k,%20i-1},%20e_{k-1,%20i})%20+%20p_{j,%20i}%20\quad%20\text{para}%20i%20\in%20[m],%20k%20\in%20[|\pi|%20+%201]%20\quad%20\text{con}%20e^{'}_{k,%200}%20=%200" alt="Tiempos actualizados">
+</div>
+
+<div style="text-align: center;">
+  <img src="./.github/1733417714.png" alt="Matriz actualizada con J3" width="400px">
+  <p><em>Figura 4: Matriz de los tiempos de finalización más tempranos con $J_3$</em></p>
+</div>
+
+---
+
+- 3. Calcular los **tiempos de iniciación más tardíos**
+
+<div style="text-align: center;">
+  <img src="https://latex.codecogs.com/png.latex?\dpi{150}\text{Calcule}%20q_{k,%20i}%20=%20\max(q_{k,%20i+1},%20q_{k+1,%20i})%20+%20p_{\pi(k),%20i}%20\quad%20\text{para}%20i%20\in%20[m],%20k%20\in%20[|\pi|]%20\quad%20\text{con}%20q_{|\pi|+1,%200}%20=%20q_{k,%20m+1}%20=%200" alt="Ecuación tiempos tardíos">
+</div>
+
+<div style="text-align: center;">
+  <img src="./.github/1733417731.png" alt="Matriz tiempos tardíos" width="400px">
+  <p><em>Figura 5: Matriz de tiempos de iniciación más tardíos</em></p>
+</div>
+
+---
+
+- 4. Calcular el Makespan
+
+<div style="text-align: center;">
+  <img src="https://latex.codecogs.com/png.latex?\dpi{150}\text{Calcule}%20MC_k%20=%20\max_{i%20\in%20[m]}(e^{'}_{k,%20i}%20+%20q_{k,%20i})%20\quad%20\text{para}%20k%20\in%20[|\pi|%20+%201]" alt="Makespan">
+</div>
+
+<div style="text-align: center;">
+  <img src="./.github/1733417752.png" alt="Suma de matrices" width="400px">
+  <p><em>Figura 6: Suma de las matrices y mayor valor de cada fila</em></p>
+</div>
+
+---
+
+##### Complejidad temporal de NEH
+
+Con esta aceleración, NEH inserta los <samp>n</samp> trabajos en un tiempo 
+<samp>O(n^2 m)</samp>.
+
+<div style="text-align: center;">
+  <img src="./.github/1733417790.png" alt="Complejidad temporal" width="400px">
+  <p><em>Figura 7: Complejidad temporal</em></p>
+</div>
+
+---
+
+```cpp
+tuple<int, vector<int>::iterator> MejorPosicisionInsercion(vector<int> &S, int nj) {
+  fill(&EF[0][0], &EF[0][mM], 0);
+  for (int k = 1; k <= S.size(); k++) {
+    int j = S[k - 1];
+    EF[k][0] = EF[k - 1][0] + P[j][0];
+    for (int i = 1; i < mM; i++)
+      EF[k][i] = max(EF[k - 1][i], EF[k][i - 1]) + P[j][i];
+  }
+
+  for (int k = 0; k <= S.size(); k++) {
+    EF[k][0] += P[nj][0];
+    for (int i = 1; i < mM; i++)
+      EF[k][i] = max(EF[k][i], EF[k][i - 1]) + P[nj][i];
+  }
+
+  fill(&LS[S.size()][0], &LS[S.size()][mM], 0);
+  for (int k = S.size() - 1; k >= 0; k--) {
+    int j = S[k];
+    LS[k][mM - 1] = LS[k + 1][mM - 1] + P[j][mM - 1];
+    for (int i = mM - 2; i >= 0; i--)
+      LS[k][i] = max(LS[k][i + 1], LS[k + 1][i]) + P[j][i];
+  }
+
+  int bmk = numeric_limits<int>::max(), mk, pos;
+  for (int k = 0; k <= S.size(); k++) {
+    mk = 0;
+    for (int i = 0; i < mM; i++)
+      if (mk < EF[k][i] + LS[k][i])
+        mk = EF[k][i] + LS[k][i];
+    if (mk < bmk) { bmk = mk; pos = k; }
+  }
+
+  return {bmk, S.begin() + pos};
+}
+```
+
+Finalmente, sabiendo dónde es la mejor posición de inserción, podemos construir 
+la heuritica constructiva NEH
+
+```cpp
+int NEH(vector<int> &S) {
+  int mk;
+  vector<int> orden;
+  PrioridadNEH(orden);
+  S = {orden[0]};
+  for (int k = 1; k < nT; k++) {
+    vector<int>::iterator pos;
+    tie(mk, pos) = MejorPosicisionInsercion(S, orden[k]);
+    S.insert(pos, orden[k]);
+  }
+  return mk;
+}
+
+```
 
 ### 3.2.5. Implementación Heurística de Búsqueda Local
 
+Para poder resinsertar un elemento en otra posición de la misma vecindad, usamos la 
+aceleración de Taillard.
+
+```cpp
+int BusquedaLocal(vector<int> &S, int pmk = 0) {
+  vector<int> orden(S);
+  shuffle(orden.begin(), orden.end(), Rand);
+  int k = 0;
+  int c = 0;
+  int bmk = pmk;
+  if (bmk == 0) bmk = makespan(S);
+  do {
+    int mk; vector<int>::iterator pos;
+    S.erase(find(S.begin(), S.end(), orden[k]));
+    tie(mk, pos) = MejorPosicisionInsercion(S, orden[k]);
+    S.insert(pos, orden[k]);
+    if (mk < bmk) { bmk = mk; c = 0; }
+    k++; if (k >= nT) k = 0;
+    c++;
+  } while (c < nT);
+  return bmk;
+}
+```
+ 
 ### 3.2.6. Implementación Búsqueda local iterativa (ILS)
+
+Podemos ver las implementaciones con los 3 criterios en el archivo 
+[flowshop](./flowshop.cpp), pero en esta sección solo mostraremos la 
+implementación con el criterio de aceptación Simulated Annealing.
+
+```cpp
+int ILS_SA(vector<int> &BS) {
+  vector<int> S, NS;
+  int mk, bmk, nmk;
+  int sum_p = 0;
+
+  for (int j = 0; j < nT; j++)
+    for (int i = 0; i < mM; i++)
+      sum_p += P[j][i];
+  double T = double(sum_p) / (nT * mM * 25);
+
+  elapsed(true);
+  bmk = mk = NEH(S);
+  bmk = mk = BusquedaLocal(S);
+  BS = S;
+
+  while (elapsed() < 15 * nT * mM) {
+    NS = S;
+    auto b1 = NS.begin() + Rand() % NS.size();
+    auto b2 = NS.begin() + Rand() % NS.size();
+    swap(*b1, *b2);
+    b1 = NS.begin() + Rand() % NS.size();
+    b2 = NS.begin() + Rand() % NS.size();
+    swap(*b1, *b2);
+
+    nmk = BusquedaLocal(NS);
+    if (nmk < mk) {
+      S = NS; mk = nmk;
+      if (mk < bmk) {BS = S; bmk = mk;}
+    } else if (double(Rand()) / Rand.max() <= 
+          exp(-(double(nmk - mk) / T))) {
+      S = NS; mk = nmk;
+    }
+  }
+
+  return bmk;
+}
+```
 
 ### 3.2.7. Implementación Algoritmo iterativo goloso (IG)
 
+El siguiente código es la implementacion del algoritmos iterativo goloso sin 
+usar la Búsqueda Local, como se observa solo hemos comentado dos lineas donde
+se actualiza el valor de <samp>bmk</samp> y <samp>nmk</samp>
+
+```cpp
+int IGnoLS(vector<int> &BS) {
+  vector<int> S, NS, R;
+  R.resize(4);
+  int mk, bmk, nmk;
+  int sum_p = 0;
+
+  for (int j = 0; j < nT; j++)
+    for (int i = 0; i < mM; i++)
+      sum_p += P[j][i];
+  double T = double(sum_p) / (nT * mM * 25);
+
+  elapsed(true);
+  bmk = mk = NEH(S);
+  // bmk = mk = BusquedaLocal(S);
+  BS = S;
+
+  while (elapsed() < 15 * nT * mM) {
+    NS = S;
+    for (auto &j : R) {
+      auto b1 = NS.begin() + Rand() % NS.size();
+      j = *b1;
+      NS.erase(b1);
+    }
+    for (auto &j : R) {
+      vector<int>::iterator pos;
+      tie(nmk, pos) = MejorPosicisionInsercion(NS, j);
+      NS.insert(pos, j);
+    }
+
+    // nmk = BusquedaLocal(NS, nmk);
+    if (nmk < mk) {
+      S = NS; mk = nmk;
+      if (mk < bmk) {BS = S; bmk = mk;}
+    } else if (double(Rand()) / Rand.max() <= 
+          exp(-(double(nmk - mk) / T))) {
+      S = NS; mk = nmk;
+    }
+  }
+
+  return bmk;
+}
+
+```
+
 # 4. Resultados
 
+| Método   | Sj    | ILS B  | ILS RW  | ILS SA  | IG     | IG no LS | ARPD     |
+|----------|-------|--------|---------|---------|--------|----------|----------|
+| ILS B    | 308.4 | 0      | 144     | 90.85   | 190.5  | 129.65   | 0.84178  |
+| ILS RW   | 452.4 | 144    | 0       | 234.85  | 334.5  | 273.65   | 1.48651  |
+| ILS SA   | 217.55| 90.85  | 234.85  | 0       | 99.65  | 38.8     | 0.63648  |
+| IG       | 117.9 | 190.5  | 334.5   | 99.65   | 0      | 60.85    | 0.45888  |
+| IG no LS | 178.75| 129.65 | 273.65  | 38.8    | 60.85  | 0        | 0.57968  |
+
+**Prueba Mack-Skilling:**
+- **MS:** 319.2060
+- **α = 0.005:** χ²(k-1,α) = 14.86025 → Hay diferencias significativas.
+- **P(χ²):** 0
+- **Mínima diferencia significativa (mindif):** 71.2397
+
+
+## 4.1. Desempeño Relativo de los Algoritmos
+
+- El algoritmo IG (Iterativo Goloso) obtiene el menor ARPD (0.45888), indicando 
+el mejor desempeño relativo entre los algoritmos analizados.
+
+- Le sigue el algoritmo IG sin búsqueda local (IG no LS) con un ARPD de 0.57968, 
+mostrando un impacto positivo de la búsqueda local en el rendimiento del IG.
+
+- El ILS SA (Simulated Annealing) obtiene un ARPD de 0.63648, posicionándose como 
+una opción intermedia en términos de calidad.
+
+## 4.2. Rendimiento de ILS RW y ILS B
+
+- El ILS RW tiene el mayor ARPD (1.48651), lo que sugiere que la técnica aleatoria 
+utilizada no es competitiva frente a las demás.
+
+- Por otro lado, ILS B tiene un ARPD de 0.84178, demostrando un desempeño 
+aceptable pero no óptimo.
+
+## 4.3. Prueba Mack-Skilling
+
+La prueba estadística no paramétrica Mack-Skilling confirma que existen diferencias significativas entre los métodos analizados con un nivel de confianza del 99.5%
+
+## 4.4. Mínima diferencia significativa
+
+La diferencia mínima necesaria para distinguir significativamente entre métodos es 71.2397, lo que refuerza la evidencia estadística a favor del mejor desempeño del IG.
+
+En general, el análisis muestra que el IG y sus variantes superan al resto de los métodos en términos de calidad de las soluciones obtenidas, confirmando su efectividad en el contexto evaluado.
+
 # 5. Conclusiones
+
+En conclusión, los resultados obtenidos destacan al algoritmo Iterativo Goloso (IG) 
+como el enfoque más eficiente y robusto para resolver el problema analizado, 
+especialmente cuando se combina con búsqueda local. Además, el análisis 
+estadístico confirma diferencias significativas entre los algoritmos evaluados, 
+subrayando la importancia de seleccionar estrategias adecuadas para optimizar 
+el rendimiento. Los hallazgos reafirman la relevancia de integrar búsqueda local 
+en los algoritmos iterativos y establecen al IG como una herramienta efectiva en 
+este campo.
 
 # 6. Referencias Bibliograficas
 
