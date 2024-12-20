@@ -1,6 +1,0 @@
-Buenos días profesor, al intentar convertir el markdown (md) en pdf usando 
-la herramienta pandoc, ocurre muchos errores de formato. Podria por favor 
-aceptar mi informe hecho en Markdown publicado en el siguiente repositorio
-Github
-
-https://github.com/jorghee/Flow-shop-scheduling-problem
