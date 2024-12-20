@@ -164,12 +164,13 @@ se menciono anteriormente, se divide en dos partes importantes:
 Determina un orden de inserción. En este caso, se ordena del más grande al 
 más pequeño según su tiempo total de procesamiento.  
 
-![](https://latex.codecogs.com/png.latex?bg=ffffff%20%5Cpi_0%20%3D%20%28J_4%2C%20J_5%2C%20J_1%2C%20J_2%2C%20J_3%2C%20J_6%29)
+<img src="./.github/1734723318.png" alt="Conjunto inicial" width="200px">
 
 ### Segunda etapa: **Cómo o dónde lo debo de insertar**
 
 Insertar estos trabajos, uno a uno, en la mejor posición, comenzando con:  
-![](https://latex.codecogs.com/png.latex?bg=ffffff%20%5Cpi%20%3D%20%28J_4%29)
+
+<img src="./.github/1734722794.png" alt="Posición inicial" width="200px">
 
 <div style="text-align: center;">
   <img src="./.github/1733245449.png" alt="Heurística NEH" width="400px">
@@ -184,7 +185,7 @@ del primer resultado.
 
 - La calidad de la solución se mide con el desvío relativo:
 
-![](https://latex.codecogs.com/png.latex?bg=ffffff%20DR%20%3D%20%5Cfrac%7BC_%7B%5Cmax%7D%28%5Cpi%29%20-%20C_%7B%5Cmax%7D%28%5Cpi%5E*%29%7D%7BC_%7B%5Cmax%7D%28%5Cpi%5E*%29%7D)
+<img src="./.github/1734723004.png" alt="Desvio relativo" width="200px">
 
 --- 
 
@@ -246,7 +247,7 @@ pasos de la búsqueda local iterativa. La búsqueda local iterativa repite estos
 pasos guardando la mejor solución producida hasta un criterio de parada definida.
 
 <div style="text-align: center;">
-  <img src="./.github/1734708527.png" alt="Búsqueda Local Iterativa" width="400px">
+  <img src="./.github/1734708527.png" alt="Búsqueda Local Iterativa" width="300px">
   <p><em>Figura 6: Búsqueda Local Iterativa [5]</em></p>
 </div>
 
@@ -291,7 +292,7 @@ pasos del algoritmo iterativo goloso. El algoritmo iterativo goloso repite estos
 pasos guardando la mejor solución producida hasta un criterio de parada definida.
 
 <div style="text-align: center;">
-  <img src="./.github/1734708941.png" alt="Algoritmo Iterativo Goloso" width="400px">
+  <img src="./.github/1734708941.png" alt="Algoritmo Iterativo Goloso" width="300px">
   <p><em>Figura 7: Algoritmo Iterativo Goloso [5]</em></p>
 </div>
 
@@ -319,7 +320,7 @@ las soluciones encontradas al refinar las configuraciones obtenidas. La Figura 8
 ilustra este enfoque extendido.
 
 <div style="text-align: center;">
-  <img src="./.github/1734709012.png" alt="IG con LS" width="400px">
+  <img src="./.github/1734709012.png" alt="IG con LS" width="300px">
   <p><em>Figura 8: Algoritmo Iterativo Goloso con Búsqueda Local [5]</em></p>
 </div>
 
@@ -427,7 +428,7 @@ suma de procesamientos de los **<samp>j</samp>** trabajos en las
 permutación.
 
 <div style="text-align: center;">
-  <img src="./.github/1734364514.png" alt="Una posible permutación" width="300px">
+  <img src="./.github/1734364514.png" alt="Una posible permutación" width="400px">
   <p><em>Figura 4: Una posible permutación [1]</em></p>
 </div>
 
@@ -529,41 +530,41 @@ Example of PrioridadNEH
 Recordando el análisis descrito en la sección 2.3. los pasos que sigue Taillard para
 calcular la mejor posicion de inserción son los siguiente:
 
-Sea ![](https://latex.codecogs.com/png.latex?bg=ffffff%20%5Cpi_0%20%3D%20%28J_4%2C%20J_5%2C%20J_1%2C%20J_2%2C%20J_3%2C%20J_6%29%20%5Cquad%20%5Cpi%20%3D%20%28J_5%2C%20J_4%2C%20J_2%2C%20J_1%29%20%5Cquad%20%5Ctext%7BNext%20work%3A%20%7DJ_3)
+<img src="./.github/1734723442.png" alt="Iteración en J_3" width="200px">
 
 - 1. Calcular los **tiempos de finalización más tempranos**
 
 <div style="text-align: center;">
-  <img src="./.github/1734721497.png" alt="Formula tiempos iniciales" width="400px">
+  <img src="./.github/1734721497.png" alt="Formula tiempos iniciales" width="600px">
   <p><em>Figura 3: Formula de los tiempos de finalización más tempranos</em></p>
 </div>
 
 <div style="text-align: center;">
-  <img src="./.github/1733417697.png" alt="Matriz tiempos iniciales" width="400px">
+  <img src="./.github/1733417697.png" alt="Matriz tiempos iniciales" width="600px">
   <p><em>Figura 3: Matriz de los tiempos de finalización más tempranos</em></p>
 </div>
 
 - 2. Calcular los tiempos de finalización con el nuevo trabajo insertado en cada posición
 
 <div style="text-align: center;">
-  <img src="./.github/1734721506.png" alt="Formula actualizada con J_3" width="400px">
+  <img src="./.github/1734721506.png" alt="Formula actualizada con J_3" width="600px">
   <p><em>Figura 4: Formula tiempos de finalización más tempranos con J_3</em></p>
 </div>
 
 <div style="text-align: center;">
-  <img src="./.github/1733417714.png" alt="Matriz actualizada con J3" width="400px">
+  <img src="./.github/1733417714.png" alt="Matriz actualizada con J3" width="600px">
   <p><em>Figura 4: Matriz de los tiempos de finalización más tempranos con $J_3$</em></p>
 </div>
 
 - 3. Calcular los **tiempos de iniciación más tardíos**
 
 <div style="text-align: center;">
-  <img src="./.github/1734721514.png" alt="Formula tiempos tardíos" width="400px">
+  <img src="./.github/1734721514.png" alt="Formula tiempos tardíos" width="600px">
   <p><em>Figura 5: Formula de tiempos de iniciación más tardíos</em></p>
 </div>
 
 <div style="text-align: center;">
-  <img src="./.github/1733417731.png" alt="Matriz tiempos tardíos" width="400px">
+  <img src="./.github/1733417731.png" alt="Matriz tiempos tardíos" width="600px">
   <p><em>Figura 5: Matriz de tiempos de iniciación más tardíos</em></p>
 </div>
 
@@ -585,7 +586,7 @@ Con esta aceleración, NEH inserta los <samp>n</samp> trabajos en un tiempo
 <samp>O(n^2 m)</samp>.
 
 <div style="text-align: center;">
-  <img src="./.github/1733417790.png" alt="Complejidad temporal" width="400px">
+  <img src="./.github/1733417790.png" alt="Complejidad temporal" width="500px">
   <p><em>Figura 7: Complejidad temporal</em></p>
 </div>
 
