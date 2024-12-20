@@ -170,7 +170,7 @@ más pequeño según su tiempo total de procesamiento.
 
 Insertar estos trabajos, uno a uno, en la mejor posición, comenzando con:  
 
-<img src="./.github/1734722794.png" alt="Posición inicial" width="200px">
+<img src="./.github/1734722794.png" alt="Posición inicial" width="50px">
 
 <div style="text-align: center;">
   <img src="./.github/1733245449.png" alt="Heurística NEH" width="400px">
@@ -530,7 +530,7 @@ Example of PrioridadNEH
 Recordando el análisis descrito en la sección 2.3. los pasos que sigue Taillard para
 calcular la mejor posicion de inserción son los siguiente:
 
-<img src="./.github/1734723442.png" alt="Iteración en J_3" width="200px">
+<img src="./.github/1734723442.png" alt="Iteración en J_3" width="600px">
 
 - 1. Calcular los **tiempos de finalización más tempranos**
 
