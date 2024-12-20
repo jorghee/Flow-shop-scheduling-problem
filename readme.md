@@ -205,7 +205,7 @@ insertado <strong>no cambian</strong>.
 
 <div style="text-align: center;">
   <img src="./.github/1733346799.png" alt="Tiempos de finalización más tempranos" width="400px">
-  <p><em>Figura 1: Tiempos de finalización más tempranos</em></p>
+  <p><em>Figura 5: Tiempos de finalización más tempranos</em></p>
 </div>
 
 ##### Los tiempos de iniciación más tardíos
@@ -221,7 +221,7 @@ trabajo insertado <strong>no cambian</strong>.
 
 <div style="text-align: center;">
   <img src="./.github/1733346809.png" alt="Tiempos de iniciación más tardíos" width="400px">
-  <p><em>Figura 2: Tiempos de iniciación más tardíos</em></p>
+  <p><em>Figura 6: Tiempos de iniciación más tardíos</em></p>
 </div>
 
 ---
@@ -237,7 +237,7 @@ correctamente la Heurística es:
 
 <div style="text-align: center;">
   <img src="./.github/1734707914.png" alt="Heurística Búsqueda Local" width="400px">
-  <p><em>Figura 5: Heurística de Búsqueda Local [1]</em></p>
+  <p><em>Figura 7: Heurística de Búsqueda Local [1]</em></p>
 </div>
 
 ## 2.5. Búsqueda local iterativa
@@ -248,7 +248,7 @@ pasos guardando la mejor solución producida hasta un criterio de parada definid
 
 <div style="text-align: center;">
   <img src="./.github/1734708527.png" alt="Búsqueda Local Iterativa" width="300px">
-  <p><em>Figura 6: Búsqueda Local Iterativa [5]</em></p>
+  <p><em>Figura 8: Búsqueda Local Iterativa [5]</em></p>
 </div>
 
 A continuación explicamos los principales componentes de la búsqueda local 
@@ -293,7 +293,7 @@ pasos guardando la mejor solución producida hasta un criterio de parada definid
 
 <div style="text-align: center;">
   <img src="./.github/1734708941.png" alt="Algoritmo Iterativo Goloso" width="300px">
-  <p><em>Figura 7: Algoritmo Iterativo Goloso [5]</em></p>
+  <p><em>Figura 9: Algoritmo Iterativo Goloso [5]</em></p>
 </div>
 
 A continuación explicamos los principales componentes del algoritmo iterativo goloso.
@@ -316,12 +316,12 @@ aceptación de "Simulated Annealing".
 
 Existe una extensión natural del algoritmo iterativo goloso que incorpora una 
 búsqueda local tras cada reconstrucción. Esta combinación mejora la calidad de 
-las soluciones encontradas al refinar las configuraciones obtenidas. La Figura 8 
+las soluciones encontradas al refinar las configuraciones obtenidas. La Figura 10 
 ilustra este enfoque extendido.
 
 <div style="text-align: center;">
   <img src="./.github/1734709012.png" alt="IG con LS" width="300px">
-  <p><em>Figura 8: Algoritmo Iterativo Goloso con Búsqueda Local [5]</em></p>
+  <p><em>Figura 10: Algoritmo Iterativo Goloso con Búsqueda Local [5]</em></p>
 </div>
 
 # 3. Diseño experimental
@@ -429,7 +429,7 @@ permutación.
 
 <div style="text-align: center;">
   <img src="./.github/1734364514.png" alt="Una posible permutación" width="400px">
-  <p><em>Figura 4: Una posible permutación [1]</em></p>
+  <p><em>Figura 11: Una posible permutación [1]</em></p>
 </div>
 
 En este caso, el `makespan` es **43**. Para hallar este número podemos calcular 
@@ -532,52 +532,52 @@ calcular la mejor posicion de inserción son los siguiente:
 
 <img src="./.github/1734723442.png" alt="Iteración en J_3" width="600px">
 
-- 1. Calcular los **tiempos de finalización más tempranos**
+1. Calcular los **tiempos de finalización más tempranos**
 
 <div style="text-align: center;">
   <img src="./.github/1734721497.png" alt="Formula tiempos iniciales" width="600px">
-  <p><em>Figura 3: Formula de los tiempos de finalización más tempranos</em></p>
+  <p><em>Figura 12: Formula de los tiempos de finalización más tempranos</em></p>
 </div>
 
 <div style="text-align: center;">
   <img src="./.github/1733417697.png" alt="Matriz tiempos iniciales" width="600px">
-  <p><em>Figura 3: Matriz de los tiempos de finalización más tempranos</em></p>
+  <p><em>Figura 13: Matriz de los tiempos de finalización más tempranos</em></p>
 </div>
 
-- 2. Calcular los tiempos de finalización con el nuevo trabajo insertado en cada posición
+2. Calcular los tiempos de finalización con el nuevo trabajo insertado en cada posición
 
 <div style="text-align: center;">
   <img src="./.github/1734721506.png" alt="Formula actualizada con J_3" width="600px">
-  <p><em>Figura 4: Formula tiempos de finalización más tempranos con J_3</em></p>
+  <p><em>Figura 14: Formula tiempos de finalización más tempranos con J_3</em></p>
 </div>
 
 <div style="text-align: center;">
   <img src="./.github/1733417714.png" alt="Matriz actualizada con J3" width="600px">
-  <p><em>Figura 4: Matriz de los tiempos de finalización más tempranos con $J_3$</em></p>
+  <p><em>Figura 15: Matriz de los tiempos de finalización más tempranos con $J_3$</em></p>
 </div>
 
-- 3. Calcular los **tiempos de iniciación más tardíos**
+3. Calcular los **tiempos de iniciación más tardíos**
 
 <div style="text-align: center;">
   <img src="./.github/1734721514.png" alt="Formula tiempos tardíos" width="600px">
-  <p><em>Figura 5: Formula de tiempos de iniciación más tardíos</em></p>
+  <p><em>Figura 16: Formula de tiempos de iniciación más tardíos</em></p>
 </div>
 
 <div style="text-align: center;">
   <img src="./.github/1733417731.png" alt="Matriz tiempos tardíos" width="600px">
-  <p><em>Figura 5: Matriz de tiempos de iniciación más tardíos</em></p>
+  <p><em>Figura 17: Matriz de tiempos de iniciación más tardíos</em></p>
 </div>
 
-- 4. Calcular el Makespan
+4. Calcular el Makespan
 
 <div style="text-align: center;">
   <img src="./.github/1734721523.png" alt="Formula suma de matrices" width="400px">
-  <p><em>Figura 6: Formula de suma de las matrices y mayor valor de cada fila</em></p>
+  <p><em>Figura 18: Formula de suma de las matrices y mayor valor de cada fila</em></p>
 </div>
 
 <div style="text-align: center;">
   <img src="./.github/1733417752.png" alt="Suma de matrices" width="400px">
-  <p><em>Figura 6: Suma de las matrices y mayor valor de cada fila</em></p>
+  <p><em>Figura 19: Suma de las matrices y mayor valor de cada fila</em></p>
 </div>
 
 ##### Complejidad temporal de NEH
@@ -587,7 +587,7 @@ Con esta aceleración, NEH inserta los <samp>n</samp> trabajos en un tiempo
 
 <div style="text-align: center;">
   <img src="./.github/1733417790.png" alt="Complejidad temporal" width="500px">
-  <p><em>Figura 7: Complejidad temporal</em></p>
+  <p><em>Figura 20: Complejidad temporal</em></p>
 </div>
 
 ---
