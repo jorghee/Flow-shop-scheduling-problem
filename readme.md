@@ -34,7 +34,7 @@
         <td style="padding: 10px; font-weight: bold;">NRO. SEMESTRE:</td>
         <td style="padding: 10px;">IV</td>
       </tr>
-
+      <tr>
         <td colspan="6" style="padding: 10px; font-weight: bold;">DOCENTE:</td>
       </tr>
       <tr>
@@ -52,7 +52,39 @@
 
 ## *Resumen*
 
+Este artículo describe la implementación y evaluación de dos heurísticas y dos 
+metaheurísticas aplicadas al problema de programación de tareas Flow Shop 
+Scheduling Problem (FSSP). Inicialmente, se contextualiza el problema y se 
+presentan los fundamentos teóricos y conceptuales relevantes. Posteriormente, se 
+detalla el diseño experimental, que incluye la definición de objetivos, actividades 
+y funciones clave utilizadas en la implementación. Los resultados obtenidos 
+analizan el desempeño relativo de los algoritmos propuestos, destacando el 
+rendimiento específico de las variantes de búsqueda local iterativa y la aplicación 
+de pruebas estadísticas para validar los hallazgos. Finalmente, se ofrecen 
+conclusiones sobre la eficacia y aplicabilidad de las estrategias desarrolladas. 
+Este trabajo busca aportar una perspectiva útil para la resolución de problemas 
+complejos en el área de investigación operativa.
+
 # 1. Introducción
+
+El problema de programación de tareas Flow Shop Scheduling Problem (FSSP) 
+representa un desafío clásico en la investigación operativa debido a su complejidad 
+y relevancia en contextos industriales y logísticos. Este trabajo se enfoca en 
+implementar dos heurísticas: la Heurística Constructiva Nawaz-Enscore-Ham (NEH) y 
+una Heurística de Búsqueda Local, junto con dos metaheurísticas: Búsqueda Local 
+Iterativa (ILS) y un Algoritmo Iterativo Goloso (IG). Los objetivos incluyen 
+evaluar la eficiencia y eficacia de estas técnicas, identificando las mejores 
+estrategias para minimizar el makespan.
+
+El artículo se organiza de la siguiente manera. La Sección 2 presenta el marco 
+teórico conceptual, incluyendo los fundamentos de investigación operativa y la 
+descripción del FSSP, así como las técnicas heurísticas y metaheurísticas 
+utilizadas. La Sección 3 detalla el diseño experimental, describiendo los objetivos, 
+las actividades realizadas y las funciones implementadas. En la Sección 4 se 
+analizan los resultados obtenidos, comparando el desempeño de los algoritmos y 
+aplicando pruebas estadísticas para evaluar su validez. Finalmente, la Sección 5 
+presenta las conclusiones del estudio, destacando las implicaciones prácticas y 
+posibles líneas de investigación futura.
 
 # 2. Marco teórico conceptual
 
@@ -132,12 +164,12 @@ se menciono anteriormente, se divide en dos partes importantes:
 Determina un orden de inserción. En este caso, se ordena del más grande al 
 más pequeño según su tiempo total de procesamiento.  
 
-![)](https://latex.codecogs.com/png.latex?%5Cpi_0%20%3D%20%28J_4%2C%20J_5%2C%20J_1%2C%20J_2%2C%20J_3%2C%20J_6%29)
+![](https://latex.codecogs.com/png.latex?bg=ffffff%20%5Cpi_0%20%3D%20%28J_4%2C%20J_5%2C%20J_1%2C%20J_2%2C%20J_3%2C%20J_6%29)
 
 ### Segunda etapa: **Cómo o dónde lo debo de insertar**
 
 Insertar estos trabajos, uno a uno, en la mejor posición, comenzando con:  
-![](https://latex.codecogs.com/png.latex?%5Cpi%20%3D%20%28J_4%29)
+![](https://latex.codecogs.com/png.latex?bg=ffffff%20%5Cpi%20%3D%20%28J_4%29)
 
 <div style="text-align: center;">
   <img src="./.github/1733245449.png" alt="Heurística NEH" width="400px">
@@ -152,7 +184,7 @@ del primer resultado.
 
 - La calidad de la solución se mide con el desvío relativo:
 
-![](https://latex.codecogs.com/png.latex?DR%20%3D%20%5Cfrac%7BC_%7B%5Cmax%7D%28%5Cpi%29%20-%20C_%7B%5Cmax%7D%28%5Cpi%5E*%29%7D%7BC_%7B%5Cmax%7D%28%5Cpi%5E*%29%7D)
+![](https://latex.codecogs.com/png.latex?bg=ffffff%20DR%20%3D%20%5Cfrac%7BC_%7B%5Cmax%7D%28%5Cpi%29%20-%20C_%7B%5Cmax%7D%28%5Cpi%5E*%29%7D%7BC_%7B%5Cmax%7D%28%5Cpi%5E*%29%7D)
 
 --- 
 
@@ -166,11 +198,9 @@ Imaginemos que empujamos todos los trabajos hacia el inicio, lo más posible. Es
 decir, el procesamiento de un trabajo pasa a la siguiente máquina justo cuando 
 culmina su procesamiento en la anterior.
 
-<div style="color: blue; font-weight: bold;">
-Conclusión: Si insertamos el quinto trabajo en cualquier lugar, los tiempos de 
+**Conclusión:** Si insertamos el quinto trabajo en cualquier lugar, los tiempos de 
 finalización en cada máquina de los trabajos procesados antes del nuevo trabajo 
 insertado <strong>no cambian</strong>.
-</div>
 
 <div style="text-align: center;">
   <img src="./.github/1733346799.png" alt="Tiempos de finalización más tempranos" width="400px">
@@ -184,11 +214,9 @@ Recordemos que los tiempos de procesamiento de cada trabajo en cada máquina var
 por lo que pueden quedar espacios sin uso. Estos espacios pueden ser ocupados por 
 los trabajos procesados anteriormente en esa máquina.
 
-<div style="color: blue; font-weight: bold;">
-Conclusión: Si insertamos el quinto trabajo en cualquier lugar, los tiempos de 
+**Conclusión:** Si insertamos el quinto trabajo en cualquier lugar, los tiempos de 
 iniciación tardía en cada máquina de los trabajos procesados después del nuevo 
 trabajo insertado <strong>no cambian</strong>.
-</div>
 
 <div style="text-align: center;">
   <img src="./.github/1733346809.png" alt="Tiempos de iniciación más tardíos" width="400px">
@@ -301,6 +329,11 @@ Nuestro objetivo en esta sección será implementar 2 heurísticas básicas: heu
 Constructiva y heurística de búsqueda local, para calcular el `makespan` de FSSP. 
 
 ## 3.1. Objetivos
+
+Los objetivos de este trabajo son:
+
+- Reforzar los conocimientos de los métodos heurísticos básicos y de metaheurísticas.
+- Aplicar estos métodos para resolver el FSSP.
 
 ## 3.2. Actividades
 
@@ -496,14 +529,13 @@ Example of PrioridadNEH
 Recordando el análisis descrito en la sección 2.3. los pasos que sigue Taillard para
 calcular la mejor posicion de inserción son los siguiente:
 
+Sea ![](https://latex.codecogs.com/png.latex?bg=ffffff%20%5Cpi_0%20%3D%20%28J_4%2C%20J_5%2C%20J_1%2C%20J_2%2C%20J_3%2C%20J_6%29%20%5Cquad%20%5Cpi%20%3D%20%28J_5%2C%20J_4%2C%20J_2%2C%20J_1%29%20%5Cquad%20%5Ctext%7BNext%20work%3A%20%7DJ_3)
+
 - 1. Calcular los **tiempos de finalización más tempranos**
 
 <div style="text-align: center;">
-  <img src="https://latex.codecogs.com/png.latex?\dpi{150}\pi_0%20=%20(J_4,%20J_5,%20J_1,%20J_2,%20\textcolor{red}{J_3},%20J_6)%20\quad%20\pi%20=%20(J_5,%20J_4,%20J_2,%20J_1)%20\quad%20\text{Next%20work:%20}J_3" alt="Tiempos iniciales">
-</div>
-
-<div style="text-align: center;">
-  <img src="https://latex.codecogs.com/png.latex?\dpi{150}\text{Calcule}%20e_{k,%20i}%20=%20\max(e_{k,%20i-1},%20e_{k-1,%20i})%20+%20p_{\pi(k),%20i}%20\quad%20\text{para}%20i%20\in%20[m],%20k%20\in%20[|\pi|]%20\quad%20\text{con}%20e_{0,%20i}%20=%20e_{k,%200}%20=%200" alt="Ecuación tiempos iniciales">
+  <img src="./.github/1734721497.png" alt="Formula tiempos iniciales" width="400px">
+  <p><em>Figura 3: Formula de los tiempos de finalización más tempranos</em></p>
 </div>
 
 <div style="text-align: center;">
@@ -511,12 +543,11 @@ calcular la mejor posicion de inserción son los siguiente:
   <p><em>Figura 3: Matriz de los tiempos de finalización más tempranos</em></p>
 </div>
 
----
-
 - 2. Calcular los tiempos de finalización con el nuevo trabajo insertado en cada posición
 
 <div style="text-align: center;">
-  <img src="https://latex.codecogs.com/png.latex?\dpi{150}\text{Calcule}%20e^{'}_{k,%20i}%20=%20\max(e^{'}_{k,%20i-1},%20e_{k-1,%20i})%20+%20p_{j,%20i}%20\quad%20\text{para}%20i%20\in%20[m],%20k%20\in%20[|\pi|%20+%201]%20\quad%20\text{con}%20e^{'}_{k,%200}%20=%200" alt="Tiempos actualizados">
+  <img src="./.github/1734721506.png" alt="Formula actualizada con J_3" width="400px">
+  <p><em>Figura 4: Formula tiempos de finalización más tempranos con J_3</em></p>
 </div>
 
 <div style="text-align: center;">
@@ -524,12 +555,11 @@ calcular la mejor posicion de inserción son los siguiente:
   <p><em>Figura 4: Matriz de los tiempos de finalización más tempranos con $J_3$</em></p>
 </div>
 
----
-
 - 3. Calcular los **tiempos de iniciación más tardíos**
 
 <div style="text-align: center;">
-  <img src="https://latex.codecogs.com/png.latex?\dpi{150}\text{Calcule}%20q_{k,%20i}%20=%20\max(q_{k,%20i+1},%20q_{k+1,%20i})%20+%20p_{\pi(k),%20i}%20\quad%20\text{para}%20i%20\in%20[m],%20k%20\in%20[|\pi|]%20\quad%20\text{con}%20q_{|\pi|+1,%200}%20=%20q_{k,%20m+1}%20=%200" alt="Ecuación tiempos tardíos">
+  <img src="./.github/1734721514.png" alt="Formula tiempos tardíos" width="400px">
+  <p><em>Figura 5: Formula de tiempos de iniciación más tardíos</em></p>
 </div>
 
 <div style="text-align: center;">
@@ -537,20 +567,17 @@ calcular la mejor posicion de inserción son los siguiente:
   <p><em>Figura 5: Matriz de tiempos de iniciación más tardíos</em></p>
 </div>
 
----
-
 - 4. Calcular el Makespan
 
 <div style="text-align: center;">
-  <img src="https://latex.codecogs.com/png.latex?\dpi{150}\text{Calcule}%20MC_k%20=%20\max_{i%20\in%20[m]}(e^{'}_{k,%20i}%20+%20q_{k,%20i})%20\quad%20\text{para}%20k%20\in%20[|\pi|%20+%201]" alt="Makespan">
+  <img src="./.github/1734721523.png" alt="Formula suma de matrices" width="400px">
+  <p><em>Figura 6: Formula de suma de las matrices y mayor valor de cada fila</em></p>
 </div>
 
 <div style="text-align: center;">
   <img src="./.github/1733417752.png" alt="Suma de matrices" width="400px">
   <p><em>Figura 6: Suma de las matrices y mayor valor de cada fila</em></p>
 </div>
-
----
 
 ##### Complejidad temporal de NEH
 
