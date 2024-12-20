@@ -50,13 +50,19 @@
   </table>
 </div>
 
-# Introducción: Investigación operativa
+## *Resumen*
+
+# 1. Introducción
+
+# 2. Marco teórico conceptual
+
+## 2.1. Investigación operativa
 
 **Scheduling** (programación de tareas). Consiste en asignar recursos a actividades 
 en el tiempo. Matemáticamente estos problemas están calificados como los más 
 difíciles.
 
-## Flow Shop Scheduling Problem (FSSP)
+## 2.2. Flow Shop Scheduling Problem (FSSP)
 
 Es un problema de líneas de producción. Los *J_j* trabajos deben ser procesados en 
 las *M_i* máquinas con tiempos fijos *P_ji* [1], y son independientes para cada 
@@ -76,7 +82,7 @@ pero imposible para la máquina.
   <p><em>Figura 2: Algoritmo de fuerza bruta [1]</em></p>
 </div>
 
-### ¿Qué es una Heurística?
+### 2.2.1 ¿Qué es una Heurística?
 
 Procedimiento simple diseñado de manera inteligente para crear una solución o para 
 buscar mejores soluciones que satisfagan cierto problema de optimización.
@@ -105,18 +111,162 @@ embargo, no es el mejor para resolver el problema propuesto:
 - La media de la muestra es aproximadamente la media de la población.
 - El mejor de la muestra no es el mejor de la población [1].
 
+A continuación se muestran 2 heurísticas y 2 Metaheurísticasi que se tratarán en 
+este trabajo de Laboratorio: Heurística Constructiva Nawaz-Enscore-Ham, Heurística 
+de Búsqueda local, Búsqueda local iterativa y Algoritmo iterativo goloso, 
+correspondientemente.
+
+## 2.3. Heurística Constructiva Nawaz-Enscore-Ham (NEH)
+
+Las heurísticas constructivas construyen una solución desde cero, añadiendo uno 
+a uno los componentes a la solución parcial, hasta que la solución esté completa. 
+La pregunta importante para diseñar esta heurística es:
+
+> **¿Cuál elemento debería añadir y cómo?**
+
+La heurística constructiva NEH fue propuesta en 1983 para resolver el FSSP y como 
+se menciono anteriormente, se divide en dos partes importantes:
+
+### Primera etapa: **Cuál es el elemento que debo insertar**
+
+Determina un orden de inserción. En este caso, se ordena del más grande al 
+más pequeño según su tiempo total de procesamiento.  
+
+![)](https://latex.codecogs.com/png.latex?%5Cpi_0%20%3D%20%28J_4%2C%20J_5%2C%20J_1%2C%20J_2%2C%20J_3%2C%20J_6%29)
+
+### Segunda etapa: **Cómo o dónde lo debo de insertar**
+
+Insertar estos trabajos, uno a uno, en la mejor posición, comenzando con:  
+![](https://latex.codecogs.com/png.latex?%5Cpi%20%3D%20%28J_4%29)
+
+<div style="text-align: center;">
+  <img src="./.github/1733245449.png" alt="Heurística NEH" width="400px">
+  <p><em>Figura 4: Heurística NEH [1]</em></p>
+</div>
+
 ---
 
-# Implementación de heurísticas básicas
+- Si ocurre empates al realizar la segunda etapa, se ha probado que existe una 
+técnica para solucionar este problema. Por el momento, solo tomamos el orden 
+del primer resultado.
+
+- La calidad de la solución se mide con el desvío relativo:
+
+![](https://latex.codecogs.com/png.latex?DR%20%3D%20%5Cfrac%7BC_%7B%5Cmax%7D%28%5Cpi%29%20-%20C_%7B%5Cmax%7D%28%5Cpi%5E*%29%7D%7BC_%7B%5Cmax%7D%28%5Cpi%5E*%29%7D)
+
+## 2.4. Heurística de Búsqueda local
+
+Comienzan desde una solución inicial (puede ser aleatoria), intentan reemplazar 
+la solución actual por una mejor solución vecina, repiten este paso hasta que 
+no hayan mejores soluciones vecinas. La pregunta que que ayuda a diseñar 
+correctamente la Heurística es: 
+
+> **¿Qué cambio podría mejorar esta solución?**
+
+<div style="text-align: center;">
+  <img src="./.github/1734707914.png" alt="Heurística Búsqueda Local" width="400px">
+  <p><em>Figura 5: Heurística de Búsqueda Local [1]</em></p>
+</div>
+
+## 2.5. Búsqueda local iterativa
+
+Fue propuesta por Stützle (1998). La figura 6 muestra los principales 
+pasos de la búsqueda local iterativa. La búsqueda local iterativa repite estos 
+pasos guardando la mejor solución producida hasta un criterio de parada definida.
+
+<div style="text-align: center;">
+  <img src="./.github/1734708527.png" alt="Búsqueda Local Iterativa" width="400px">
+  <p><em>Figura 6: Búsqueda Local Iterativa [5]</em></p>
+</div>
+
+A continuación explicamos los principales componentes de la búsqueda local 
+iterativa.
+
+- **Solución inicial**. El primer componente construye la solución inicial. Esta 
+puede generarse de manera aleatoria o utilizando un método heurístico que 
+proporcione una buena solución inicial, lo cual puede mejorar la eficiencia del algoritmo. En este caso hemos utilizado **Heurística de Búsqueda Local**.
+
+- **Perturbación**. El segundo componente se encarga de alterar la solución para 
+escapar de óptimos locales. Esto se realiza aplicando un intercambio.
+
+- **Búsqueda local**. Este es el componente principal de la búsqueda local 
+iterativa. Se encarga de ir al siguiente óptimo local.
+
+- **Criterio de aceptación**. Estos criterios se encargan de equilibrar dos 
+estrategias de búsqueda: la diversificación y la intensificación. Diversificar 
+la búsqueda consiste en explorar nuevas áreas del espacio de búsqueda para evitar 
+quedarse atrapado en óptimos locales. Intensificar la búsqueda se enfoca en explotar 
+las áreas más prometedoras del espacio de búsqueda para refinar la solución.
+
+    **Stützle (1998) propuso tres criterios de aceptación.**
+
+    - **Criterio de aceptación "Better"**. Consiste en aceptar únicamente las 
+    soluciones que son mejores que la actual. Es decir, intensifica la búsqueda 
+    al concentrarse en las áreas cercanas al óptimo local.
+
+    - **Criterio de aceptación "Random Walk"**. Consiste en aceptar soluciones de 
+    manera aleatoria, independientemente de su calidad relativa. Es decir, 
+    diversifica la búsqueda al permitir explorar áreas menos prometedoras.
+
+    - **Criterio de aceptación de "Simulated Annealing"**. Consiste en aceptar 
+    soluciones peores con una probabilidad decreciente en función de una 
+    temperatura simulada. Es decir, equilibra la diversificación y 
+    la intensificación de la búsqueda.
+
+## 2.6. Algoritmo iterativo goloso
+
+Fue propuesto por Ruiz y Stützle (2007). La figura 7 muestra los principales 
+pasos del algoritmo iterativo goloso. El algoritmo iterativo goloso repite estos 
+pasos guardando la mejor solución producida hasta un criterio de parada definida.
+
+<div style="text-align: center;">
+  <img src="./.github/1734708941.png" alt="Algoritmo Iterativo Goloso" width="400px">
+  <p><em>Figura 7: Algoritmo Iterativo Goloso [5]</em></p>
+</div>
+
+A continuación explicamos los principales componentes del algoritmo iterativo goloso.
+
+- **Solución inicial**. El primer componente construye la solución inicial. Puede 
+generarse utilizando la heurísticas constructiva NEH.
+
+- **Destrucción** Este componente se encarga de eliminar aleatoriamente algunos 
+elementos de la solución actual [1] generando una solución parcial. Esto permite 
+explorar nuevas configuraciones en el espacio de búsqueda.
+
+- **Reconstrucción**. Este componente se encarga de reinsertar los elementos
+eliminados usando una heurísticas constructiva golosa para construir una nueva 
+solución.
+
+- **Criterio de aceptación** Ruiz y Stützle [5] proponen utilizar el criterio de
+aceptación de "Simulated Annealing".
+
+---
+
+Existe una extensión natural del algoritmo iterativo goloso que incorpora una 
+búsqueda local tras cada reconstrucción. Esta combinación mejora la calidad de 
+las soluciones encontradas al refinar las configuraciones obtenidas. La Figura 8 
+ilustra este enfoque extendido.
+
+<div style="text-align: center;">
+  <img src="./.github/1734709012.png" alt="IG con LS" width="400px">
+  <p><em>Figura 8: Algoritmo Iterativo Goloso con Búsqueda Local [5]</em></p>
+</div>
+
+# 3. Diseño experimental
 
 Nuestro objetivo en esta sección será implementar 2 heurísticas básicas: heurística 
 Constructiva y heurística de búsqueda local, para calcular el `makespan` de FSSP. 
+
+## 3.1. Objetivos
+
+## 3.2. Actividades
+
 Lo primero que vamos hacer es cargar correctamente las instancias que 
 analizaremos, luego implementaremos el cálculo del `makespan` de una permutación 
 específica, finalmente implementaremos las dos heurísticas propuestas para 
 calcular la **permutación óptima**.
 
-## Instancias de FSSP
+### 3.2.1. Instancias de FSSP
 
 En el directorio [flowshop/](./flowshop/) se encuentran 121 instancias. Las 
 instancias son archivos con el formato *ASCII text* los cuales estan disponibles 
@@ -127,7 +277,7 @@ instancia [flowshop/br66](./flowshop/br66)
 
 ```zsh
 6 6
-0 3 1 6 2 3 3 3 4 4 5 3
+0 3.2 6 2 3 3 3 4 4 5 3
 0 4 1 3 2 5 3 3 4 5 5 2
 0 6 1 5 2 2 3 2 4 2 5 4
 0 4 1 5 2 2 3 2 4 5 5 5
@@ -138,7 +288,7 @@ Luego, el archivo tiene *nT* líneas, una para cada trabajo. Cada línea tiene *
 columnas para ese trabajo; es decir, tiene dos columnas para cada actividad de ese 
 trabajo: **el número de la máquina y le timepo de procesamiento** [2].
 
-## La función `cargar`
+### 3.2.2. La función `cargar`
 
 El objetivo es cargar correctamente una instancia en una arreglo bidimensional 
 (matriz). En esta ocasión a nosotros solo nos importa los tiempos de procesamiento 
@@ -192,7 +342,7 @@ la correcta carga de los datos de cualquier instancia con el formato presentado.
 
 ```
 
-## La función `makespan`
+### 3.2.3. La función `makespan`
 
 El `makespan` es el tiempo total de procesamiento de los **<samp>j</samp>** 
 trabajos en las **<samp>i</samp>** máquinas (no confudir con el tiempo de la 
@@ -249,18 +399,12 @@ int main(void) {
 43
 ```
 
-## Heurísticas Constructivas
+### 3.2.4. Implementación Heurística Constructiva NEH
 
-Construyen una solución desde cero, añadiendo uno a uno los componentes a la solución 
-parcial, hasta que la solución esté completa. La pregunta importante para diseñar 
-esta heurística es:
+Veremos cómo utilizando la aceleración de Taillard mejoramos la eficiencia del 
+paso **"cómo o dónde"** añadir el trabajo.
 
-> **¿Cuál elemento debería añadir y cómo?**
-
-Veremos cómo utilizando la aceleración de Taillard mejoramos la eficiencia del paso:
-cómo o dónde añadir el trabajo.
-
-### La función `prioridadNEH`
+#### La función `prioridadNEH`
 La función es sencilla, implementa el cálculo de la prioridad para la heurística 
 constructiva de Nawaz-Enscore-Ham (NEH). Consiste en dos pasos importantes: 
 calcular el tiempo total de procesamiento para cada trabajo sumando sus tiempos 
@@ -304,28 +448,36 @@ Example of PrioridadNEH
 3,4,0,1,2,5,
 ```
 
-### Aceleración de `Taillard` (1990)
-
-### Heurística constructiva NEH
-
-## Heurísticas de Búsqueda Local
-
-Comienzan desde una solución inicial (puede ser aleatoria), intentan reemplazar 
-la solución actual por una mejor solución vecina, repiten este paso hasta que 
-no hayan mejores soluciones vecinas. La pregunta que que ayuda a diseñar 
-correctamente la Heurística es: 
-
-> **¿Qué cambio podría mejorar esta solución?**
+#### Aceleración de `Taillard` (1990)
 
 
-# Implementación de Metaheurísticas iterativas
+### 3.2.5. Implementación Heurística de Búsqueda Local
 
-### Búsqueda local iterativa (ILS)
+### 3.2.6. Implementación Búsqueda local iterativa (ILS)
 
-### Algoritmo iterativo goloso (IG)
+### 3.2.7. Implementación Algoritmo iterativo goloso (IG)
 
-# Referencias
+# 4. Resultados
 
-- [1] A. Benavides, "FSSP: IMPOSIBLE" presentado en el curso de Análisis y Diseño de Algoritmos, Universidad Nacional de San Agustin, Arequipa, Perú, 2024.
-- [2] A. Benavides, "Programa inicial para FSSP con C++," presentado en el curso de Análisis y Diseño de Algoritmos, Universidad Católica San Pablo, Arequipa, Perú, 2022.
+# 5. Conclusiones
+
+# 6. Referencias Bibliograficas
+
+- [1] A. Benavides, "FSSP: IMPOSIBLE" presentado en el curso de Análisis y 
+Diseño de Algoritmos, Universidad Nacional de San Agustin, Arequipa, Perú, 2024.
+
+- [2] A. Benavides, "Programa inicial para FSSP con C++," presentado en el curso 
+de Análisis y Diseño de Algoritmos, Universidad Católica San Pablo, Arequipa, 
+Perú, 2022.
+
+- [3] M. Nawaz, E. E. Enscore Jr, and I. Ham, "A heuristic algorithm for the 
+m-machine, n-job flow-shop sequencing problem," Omega, vol. 11, no. 1, pp. 
+91–95, 1983.
+
+- [4] R. Ruiz and T. Stützle, "A simple and effective iterated greedy algorithm 
+for the permutation flowshop scheduling problem," European Journal of Operational 
+Research, vol. 177, no. 3, pp. 2033–2049, 2007.
+
+- [5] T. Stützle, "Applying iterated local search to the permutation flow shop 
+problem," Technical Report AIDA–98–04, FG Intellektik, TU Darmstadt, 1998.
 
